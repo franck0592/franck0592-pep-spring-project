@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.ArrayList;
+
 import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,7 +73,7 @@ public class SocialMediaController {
     public ResponseEntity<Object> getAllMessagesHandler(){
         return new ResponseEntity<Object>(messageService.getAllMesssages(),HttpStatus.OK);
     }
-    //Handler method to processs retreiving message by message id request from endpoint:localhost:8080/messages
+    //Handler method to processs retreiving message by message id request from endpoint:localhost:8080/messages/{message_id}
     @GetMapping("messages/{message_id}")
     public ResponseEntity<Message> getMessageHandler(@PathVariable(name = "message_id") int messageId){
         Message messageRetreived=messageService.getMessageById(messageId);
@@ -81,6 +83,7 @@ public class SocialMediaController {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
     }
+    //Handler method to processs deletion of message by message id request from endpoint:localhost:8080/messages/{message_id}
     @DeleteMapping("messages/{message_id}")
     public ResponseEntity<Integer> deleteMessageByIdHandler(@PathVariable int message_id){
         int rowAffected=messageService.deleteMessage(message_id);
@@ -89,5 +92,10 @@ public class SocialMediaController {
         }else{
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
+    }
+
+    @GetMapping("accounts/{account_id}/messages")
+    public ResponseEntity<Object> getAllMessagesByAccountIdHandler(@PathVariable int account_id){
+            return new ResponseEntity<>(messageService.getAllMessagesByAccountId(account_id),HttpStatus.OK);
     }
 }

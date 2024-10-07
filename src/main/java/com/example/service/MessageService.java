@@ -95,8 +95,16 @@ public class MessageService implements MesssageServiceInterface {
 
     @Override
     public List<Message> getAllMessagesByAccountId(int account_id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllMessagesByAccountId'");
+        // Implementation of getAllMessagesByAccountId method from interface for retreiving list of message by given account Id
+        List<Message> messageList=new ArrayList<>();
+        List<Message> emptyMessageList=new ArrayList<>();
+        messageList=messageRepository.findByPostedBy(account_id);
+        if(messageList.size()>0){
+            return messageList;
+        }else{
+            return emptyMessageList;
+        }
+
     }
 
 }
