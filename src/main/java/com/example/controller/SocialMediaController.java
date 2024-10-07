@@ -4,6 +4,7 @@ import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,11 +71,21 @@ public class SocialMediaController {
     public ResponseEntity<Object> getAllMessagesHandler(){
         return new ResponseEntity<Object>(messageService.getAllMesssages(),HttpStatus.OK);
     }
+    //Handler method to processs retreiving message by message id request from endpoint:localhost:8080/messages
     @GetMapping("messages/{message_id}")
     public ResponseEntity<Message> getMessageHandler(@PathVariable(name = "message_id") int messageId){
         Message messageRetreived=messageService.getMessageById(messageId);
         if(messageRetreived!=null){
             return ResponseEntity.status(HttpStatus.OK).body(messageRetreived);
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+    }
+    @DeleteMapping("messages/{message_id}")
+    public ResponseEntity<Integer> deleteMessageByIdHandler(@PathVariable int message_id){
+        int rowAffected=messageService.deleteMessage(message_id);
+        if(rowAffected>0){
+            return ResponseEntity.status(HttpStatus.OK).body(rowAffected);
         }else{
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }

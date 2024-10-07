@@ -70,9 +70,21 @@ public class MessageService implements MesssageServiceInterface {
     }
 
     @Override
-    public Message deleteMessage(int message_id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteMessage'");
+    public int deleteMessage(int message_id) {
+           // Implementation of deleteMessage method from interface for deletion of single message by given message Id
+           int rowAffected=0;
+           if(message_id>0){
+            Message messageToDelete=getMessageById(message_id);
+            if(messageToDelete!=null){
+                messageRepository.deleteById(message_id);
+                return rowAffected=1;
+            }else{
+                return rowAffected;
+            }
+           
+           }else{
+            return 0;
+           }
     }
 
     @Override
