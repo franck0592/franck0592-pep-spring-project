@@ -9,6 +9,6 @@ public interface MesssageServiceInterface {
     public List<Message> getAllMesssages();
     public Message getMessageById(int message_id);
     public int deleteMessage(int message_id);
-    public Message updateMessageById(int message_id);
+    public int updateMessageById(Message messageToUpdate);
     public List<Message> getAllMessagesByAccountId(int account_id);
 }

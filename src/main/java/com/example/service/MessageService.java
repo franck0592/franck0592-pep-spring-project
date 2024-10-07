@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,9 +89,25 @@ public class MessageService implements MesssageServiceInterface {
     }
 
     @Override
-    public Message updateMessageById(int message_id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateMessageById'");
+    public int updateMessageById(Message messageToUpdate) {
+        // Implementation of updateMessageById method from interface for updating of single message by given message Id
+        Optional<Message> messageRetreived=messageRepository.findById(messageToUpdate.getMessageId());
+        int rowAffected=0;
+        if(messageRetreived.isEmpty()){
+            return 0;
+        }
+        if(!messageToUpdate.getMessageText().isBlank() && messageToUpdate.getMessageText().length()<255){
+            Message messageUpdated=messageRetreived.get();
+            messageUpdated.setMessageText(messageToUpdate.getMessageText());
+            if(!messageRepository.save(messageUpdated).equals(null)){
+                return rowAffected=1;
+            }else{
+                return 0;
+            }
+           
+        }else{
+            return 0;
+        }
     }
 
     @Override

@@ -8,8 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -93,9 +95,21 @@ public class SocialMediaController {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
     }
-
+    
+    //Handler method to processs retreiving message list by account id request from endpoint:localhost:8080/accounts/{account_id}/messages
     @GetMapping("accounts/{account_id}/messages")
     public ResponseEntity<Object> getAllMessagesByAccountIdHandler(@PathVariable int account_id){
             return new ResponseEntity<>(messageService.getAllMessagesByAccountId(account_id),HttpStatus.OK);
+    }
+    @PatchMapping("messages/{message_id}")
+    public ResponseEntity<Integer> updateMessageByIdHandler(@RequestBody Message messageToUpdate, @PathVariable int message_id){
+        messageToUpdate.setMessageId(message_id);
+        int rowAffected=messageService.updateMessageById(messageToUpdate);
+        if(rowAffected>0){
+            return ResponseEntity.status(HttpStatus.OK).body(rowAffected);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
     }
 }
