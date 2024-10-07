@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -49,6 +50,16 @@ public class SocialMediaController {
             return ResponseEntity.status(HttpStatus.OK).body(accountRetrieved);
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+    //Handler method to processs creating message request from endpoint:localhost:8080/messages
+    @PostMapping("messages")
+    public ResponseEntity<Message> createMessageHandler(@RequestBody Message message){
+        Message messageCreated=messageService.create(message);
+        if(messageCreated!=null){
+            return ResponseEntity.status(HttpStatus.OK).body(messageCreated);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 }
