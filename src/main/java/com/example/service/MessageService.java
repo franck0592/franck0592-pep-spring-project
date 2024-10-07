@@ -1,11 +1,15 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.azul.crs.client.Response;
 import com.example.entity.*;
 import com.example.repository.AccountRepository;
 import com.example.repository.MessageRepository;
@@ -43,8 +47,10 @@ public class MessageService implements MesssageServiceInterface {
 
     @Override
     public List<Message> getAllMesssages() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllMesssages'");
+       // Implementation of getAllMesssages method from interface for retreiving all messages request
+       List<Message> messageList=new ArrayList<>();
+       messageList=messageRepository.findAll();
+       return messageList; 
     }
 
     @Override
