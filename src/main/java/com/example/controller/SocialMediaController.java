@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,5 +69,14 @@ public class SocialMediaController {
     @GetMapping("messages")
     public ResponseEntity<Object> getAllMessagesHandler(){
         return new ResponseEntity<Object>(messageService.getAllMesssages(),HttpStatus.OK);
+    }
+    @GetMapping("messages/{message_id}")
+    public ResponseEntity<Message> getMessageHandler(@PathVariable(name = "message_id") int messageId){
+        Message messageRetreived=messageService.getMessageById(messageId);
+        if(messageRetreived!=null){
+            return ResponseEntity.status(HttpStatus.OK).body(messageRetreived);
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
     }
 }

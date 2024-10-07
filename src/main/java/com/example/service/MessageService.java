@@ -55,8 +55,18 @@ public class MessageService implements MesssageServiceInterface {
 
     @Override
     public Message getMessageById(int message_id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMessageById'");
+         // Implementation of getMessageById method from interface for retreiving single message by given message Id
+         if(message_id>0){
+            Optional<Message> messageRetrieved=messageRepository.findById(message_id);
+            if(!messageRetrieved.isEmpty()){
+                return messageRetrieved.get();
+            }else{
+                return null;
+            }
+           
+         }else{
+            return null;
+         }
     }
 
     @Override
