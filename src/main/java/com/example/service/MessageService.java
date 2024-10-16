@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,7 +60,7 @@ public class MessageService implements MesssageServiceInterface {
          // Implementation of getMessageById method from interface for retreiving single message by given message Id
          if(message_id>0){
             Optional<Message> messageRetrieved=messageRepository.findById(message_id);
-            if(!messageRetrieved.isEmpty()){
+            if(messageRetrieved.isPresent()){
                 return messageRetrieved.get();
             }else{
                 return null;
@@ -89,6 +90,7 @@ public class MessageService implements MesssageServiceInterface {
     }
 
     @Override
+    @Transactional
     public int updateMessageById(Message messageToUpdate) {
         // Implementation of updateMessageById method from interface for updating of single message by given message Id
         Optional<Message> messageRetreived=messageRepository.findById(messageToUpdate.getMessageId());
@@ -115,7 +117,7 @@ public class MessageService implements MesssageServiceInterface {
         // Implementation of getAllMessagesByAccountId method from interface for retreiving list of message by given account Id
         List<Message> messageList=new ArrayList<>();
         List<Message> emptyMessageList=new ArrayList<>();
-        messageList=messageRepository.findByPostedBy(account_id);
+        messageList=messageRepository.findMessagesByPostedBy(account_id);
         if(messageList.size()>0){
             return messageList;
         }else{

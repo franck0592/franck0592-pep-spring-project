@@ -29,7 +29,7 @@ public class AccountService implements AccountServiceInterface{
             return null;
         }
          // checking for existing account
-        Account existingAccount=accountRepository.findByUsername(account.getUsername());
+        Account existingAccount=accountRepository.findAccountByUsername(account.getUsername());
         if(existingAccount!=null){
             return null;
         }else{
@@ -41,7 +41,7 @@ public class AccountService implements AccountServiceInterface{
     @Override
     public Account login(Account account) {
           // Implementation of login method from interface for logging request
-          Account accountRetreived=accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
+          Account accountRetreived=accountRepository.findAccountByUsernameAndPassword(account.getUsername(), account.getPassword());
           if(accountRetreived!=null){
             return accountRetreived;
           }else{
